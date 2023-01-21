@@ -2,7 +2,7 @@
 
 ### Features
 
-- Chat between multiple users
+- Real time chat between multiple users
 - Saving messages to MongoDb
 
 ### Technologies
