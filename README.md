@@ -1,4 +1,4 @@
-# Web-chat-with-MongoDb
+# Web-chat
 
 ### Features
 
