@@ -8,7 +8,6 @@ const io = require('socket.io')(server);
 require('dotenv').config();
 
 const onConnection = require('./controllers/onConnectionController');
-const userRoute = require('./routes/user');
 
 const PORT = process.env.PORT || 8000;
 const IP = process.env.IP || 'localhost';
@@ -26,6 +25,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/user', require('./routes/user'));
+app.use('/chatroom', require('./routes/chatroom'));
 
 app.get("/messages", (req, res) => {
     res.send("Hello");
