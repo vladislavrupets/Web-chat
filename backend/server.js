@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server)
 
 const onConnection = require('./controllers/onConnectionController');
+const userRoute = require('./routes/user');
 
 const PORT = process.env.PORT || 8000;
 const ip = '26.64.252.244';
@@ -15,12 +16,18 @@ const ip = '26.64.252.244';
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type', 'Redirect');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
 app.use(express.json());
+
+app.use('/user', require('./routes/user'));
+
+app.get("/messages", (req, res) => {
+    res.send("Hello");
+});
 
 io.on('connection', socket => {
     console.log('user connected', socket.id);
@@ -34,7 +41,7 @@ io.on('connection', socket => {
 async function start (port, ip){
     try {
         await mongoose.connect('mongodb+srv://sherpak:1111@cluster0.ajadfyc.mongodb.net/Messenger?retryWrites=true&w=majority');
-        server.listen(port, ip, () => {
+        server.listen(port, () => {
             console.log('server started on ' + ip + ':' + port);
         });  
     }
