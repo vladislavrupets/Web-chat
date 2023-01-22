@@ -4,13 +4,15 @@ const cors = require('cors');
 const http = require('http');
 const mongoose = require('mongoose');
 const server = http.createServer(app);
-const io = require('socket.io')(server)
+const io = require('socket.io')(server);
+require('dotenv').config();
 
 const onConnection = require('./controllers/onConnectionController');
 const userRoute = require('./routes/user');
 
 const PORT = process.env.PORT || 8000;
-const ip = '26.64.252.244';
+const IP = process.env.IP || 'localhost';
+const DB_LINK = process.env.DB_LINK;
 
 
 app.use((req, res, next) => {
@@ -40,7 +42,7 @@ io.on('connection', socket => {
 
 async function start (port, ip){
     try {
-        await mongoose.connect('mongodb+srv://sherpak:1111@cluster0.ajadfyc.mongodb.net/Messenger?retryWrites=true&w=majority');
+        await mongoose.connect(DB_LINK);
         server.listen(port, () => {
             console.log('server started on ' + ip + ':' + port);
         });  
@@ -50,7 +52,7 @@ async function start (port, ip){
     }
 }
 
-start(PORT, ip);
+start(PORT, IP);
 
 
 
