@@ -15,9 +15,9 @@ code {
     monospace;
 }
 
-/* Home */
+/* RegisterPage */
 
-.authorization-container {
+.register-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,16 +27,21 @@ code {
   
 }
 
-.name-input{
+.register-header {
+  padding: 0 100px;
+}
+
+.login-input{
   padding: 5px 20px;
   margin: 5px;
 }
 
-.home-header{
-  padding: 0 100px;
+.password-input{
+  padding: 5px 20px;
+  margin: 5px;
 }
 
-.enter-btn{
+.register-btn{
   margin: 5px 0 15px;
   padding: 4px 15px;
 }
