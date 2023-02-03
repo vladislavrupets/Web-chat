@@ -12,7 +12,7 @@ const IndexPage = () => {
         else {
             navigate('/chat');
         }
-    }, [0]);
+    }, []);
 
     return (
       <div></div>  

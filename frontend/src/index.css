@@ -48,8 +48,16 @@ code {
 
 /* ChatPage */
 
-.main-container {
+.chat-container {
   height: 100vh;
+}
+
+.inner-chat-container{
+  position: absolute;
+  left: 300px;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 /* ChatHeader */
@@ -59,7 +67,7 @@ code {
   background-color: white;
   position: fixed;
   width: 100%;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px  rgba(0, 0, 0, 0.25);
 }
 
 .leave-chat-button{
@@ -69,6 +77,16 @@ code {
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+/* ChatroomsSidebar */
+
+.chatrooms-sidebar{
+  position: fixed;
+  height: 100%;
+  width: 300px;
+  background-color: white;
+  box-shadow: 1px 0px rgba(0, 0, 0, 0.25);
 }
 
 /* ChatBody */
@@ -144,7 +162,7 @@ code {
 
 .recipient-text{
   padding: 0;
-  margin: 10px 15px 10px 10px;
+  margin: 3px 15px 10px 10px;
   overflow-wrap: break-word;
   word-break: break-all;
 }
@@ -162,11 +180,9 @@ code {
 .chat-footer {
   position: fixed;
   bottom: 0;
-  left: 0;
-  display: block;
   width: 100%;
   min-height: 50px;
-  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px -1px rgba(0, 0, 0, 0.25);
   background-color: #ffffff; 
   justify-content: center;
 }

@@ -5,8 +5,9 @@ const ChatHeader = () => {
   const navigate = useNavigate();
 
   const handleLeaveChat = () => {
-    localStorage.removeItem('userName');
-    navigate('/');
+    localStorage.removeItem('Token');
+    localStorage.removeItem('UserLogin');
+    navigate('/login');
     };
     
     return (

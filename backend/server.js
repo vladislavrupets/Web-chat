@@ -1,58 +1,56 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const http = require('http');
+const app = require('./app');
+const jwt = require('jwt-then');
 const mongoose = require('mongoose');
+const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 require('dotenv').config();
 
-const onConnection = require('./controllers/onConnectionController');
+const onConnectionToRoom = require('./controllers/onConnectionToRoomController');
 
 const PORT = process.env.PORT || 8000;
 const IP = process.env.IP || 'localhost';
 const DB_LINK = process.env.DB_LINK;
 
-
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type', 'Redirect');
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-//     next();
-// });
-app.use(cors());
-app.use(express.json());
-
-app.use('/user', require('./routes/user'));
-app.use('/chatroom', require('./routes/chatroom'));
-
-app.get("/messages", (req, res) => {
-    res.send("Hello");
-});
-
-io.on('connection', socket => {
-    console.log('user connected', socket.id);
-    onConnection(io, socket);
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected', socket.id);
-    });
-});
-
-async function start (port, ip){
+async function start (port, ip, dbLink){
     try {
-        await mongoose.connect(DB_LINK);
-        server.listen(port, () => {
+        await mongoose.connect(dbLink);
+        server.listen(port, ip, () => {
             console.log('server started on ' + ip + ':' + port);
-        });  
+        });
     }
-    catch (e) {
-        console.log(e);
+    catch (err) {
+        console.log(err);
     }
 }
 
-start(PORT, IP);
+start(PORT, IP, DB_LINK);
+
+const userNamespace = io.of("/users");
+
+userNamespace.use(async (socket, next) => {
+    try {
+        const token = socket.handshake.query.token;
+        const payload = await jwt.verify(token, process.env.SECRET);
+        socket.userId = payload.id;
+        next();
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+
+
+userNamespace.on('connection', socket => {
+    console.log('user connected', socket.userId);
+    onConnectionToRoom(userNamespace, socket);
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected', socket.userId);
+    });
+});
+
 
 
 

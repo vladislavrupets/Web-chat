@@ -1,6 +1,6 @@
-const Chatroom = require('../models/chatroomModel');
+const Chatroom = require('../../models/chatroomModel');
 
-module.exports.createRoom = async function (req, res) {
+module.exports.createRoom = async (req, res) => {
     const { roomName } = req.body;
     console.log(roomName);
     
@@ -17,5 +17,10 @@ module.exports.createRoom = async function (req, res) {
     res.json({
         message: 'Chatroom created.',
     });
-
 } 
+
+module.exports.getAllRooms = async (req, res) => {
+    const chatrooms = await Chatroom.find({});
+    
+    res.json(chatrooms);
+}

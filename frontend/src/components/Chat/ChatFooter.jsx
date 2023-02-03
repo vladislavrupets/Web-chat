@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 
-const ChatFooter = ({socket}) => {
+const ChatFooter = (props) => {
   const [message, setMessage] = useState('');
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (message.trim() && localStorage.getItem('userName')) {
-      socket.emit('sendMessage', {
-        userName: localStorage.getItem('userName'), 
-        text: message,
-        time: null
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    if (message.trim() && props.socket) {
+      props.socket.emit('sendMessage', { 
+        chatroomId: props.chatroomId,
+        message,
       });
+      console.log(message);
+      console.log(props.chatroomId);
     }
+    
     setMessage('');
   };
 
