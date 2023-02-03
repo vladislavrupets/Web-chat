@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { Context } from '../../context';
 
+
 const ChatroomsSidebar = (props) => {
 
   //get rooms list
@@ -9,7 +10,7 @@ const ChatroomsSidebar = (props) => {
 
   const getRooms = () => {
     axios
-      .get('http://26.64.252.244:8000/chatroom', {
+      .get('http://localhost:8000/chatroom', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('Token'),
         },

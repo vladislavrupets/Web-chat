@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const LoginPage = ({setupSocket}) => {
   const loginRef = useRef(null);
   const passwordRef = useRef(null);
@@ -11,7 +12,7 @@ const LoginPage = ({setupSocket}) => {
     e.preventDefault();
     const login = loginRef.current.value;
     const password = passwordRef.current.value;
-    axios.post('http://26.64.252.244:8000/user/login', {
+    axios.post('http://localhost:8000/user/login', {
       login,
       password,
     }).then(res => {

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const RegisterPage = () => {
   const loginRef = useRef(null);
   const passwordRef = useRef(null);
@@ -11,7 +12,7 @@ const RegisterPage = () => {
     e.preventDefault();
     const login = loginRef.current.value;
     const password = passwordRef.current.value;
-    axios.post('http://26.64.252.244:8000/user/register', {
+    axios.post('http://localhost:8000/user/register', {
       login,
       password,
     }).then(res => {
