@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext} from 'react';
 import axios from 'axios';
-import { Context } from '../../context';
-
 
 const ChatroomsSidebar = (props) => {
 

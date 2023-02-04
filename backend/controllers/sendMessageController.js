@@ -11,7 +11,7 @@ module.exports = function sendMessage (io, socket) {
             const user = await User.findOne({ _id: socket.userId });
             const sendDate = getMessageDate(new Date(Date.now()));
             io.in(chatroomId).emit('receiveMessage', {
-                messageId: generateUniqueId(8),
+                _id: generateUniqueId(8),
                 user: {
                     _id: socket.userId,
                     login: user.login

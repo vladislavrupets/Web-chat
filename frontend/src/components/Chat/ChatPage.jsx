@@ -10,6 +10,7 @@ const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState();
   const [userId, setUserId] = useState('');
   const [messagesStorage, setMessagesStorage] = useState({});
+  const [Message, setMessage] = useState({});
 
   const handleClickChatroom = (chatroomId) => {
     if (chatroomId !== ChatroomId) {
@@ -26,7 +27,11 @@ const ChatPage = ({ socket }) => {
         chatroomId: ChatroomId,
       });
         socket.on('receiveMessagesOnEnter', (messages) => {
+          console.log(messages);
           setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages })
+         
+          console.log(messagesStorage)
+          console.log(Message);
         });
       }
     }
@@ -39,14 +44,16 @@ const ChatPage = ({ socket }) => {
       setUserId(payload.id);
     }
   
-    if (socket && ChatroomId && messagesStorage.hasOwnProperty(ChatroomId)) {
+    if (socket && ChatroomId && !messagesStorage[ChatroomId].includes(Message)) {
       socket.on('receiveMessage', (message) => {
         if (ChatroomId === message.chatroomId) {
           let temp = {};
           Object.assign(temp, messagesStorage);
           temp[ChatroomId].push(message);
           setMessagesStorage({ ...temp });
-          console.log(messagesStorage);
+          setMessage(message);
+          console.log(messagesStorage[ChatroomId]);
+          console.log(message)
         }
       });
     }  
@@ -58,19 +65,16 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messagesStorage, userId]);
+  }, [Message, userId]);
  
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView();
-  }, [ChatroomId]);
 
   return (
     <div className='chat-container'>
       <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom } />
         <div className='inner-chat-container'>
           <ChatHeader />
-        <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />
-        {ChatroomId ? (
+          <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />
+          {ChatroomId ? (
             < ChatFooter socket={socket} chatroomId={ChatroomId} />
           ) : <></>
         }
