@@ -7,18 +7,18 @@ import ChatHeader from './ChatHeader';
 import ChatroomsSidebar from './ChatroomsSidebar';
 
 const ChatPage = ({ socket }) => {
-  const [ChatroomId, setChatroomId] = useState();
-  const [userId, setUserId] = useState('');
-  const [messagesStorage, setMessagesStorage] = useState({});
-  const [Message, setMessage] = useState({});
-
-  const handleClickChatroom = (chatroomId) => {
+  const [ChatroomId, setChatroomId] = useState('');
+  const [RoomName, setRoomName] = useState('')
+  
+  const handleClickChatroom = (chatroomId, roomName) => {
     if (chatroomId !== ChatroomId) {
       setChatroomId(chatroomId);
+      setRoomName(roomName);
     }
   }
 
-
+  //receive messages on enter 
+  const [messagesStorage, setMessagesStorage] = useState({});
 
   useEffect(() => {
     if (socket && ChatroomId) {
@@ -28,23 +28,21 @@ const ChatPage = ({ socket }) => {
       });
         socket.on('receiveMessagesOnEnter', (messages) => {
           console.log(messages);
-          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages })
-         
-          console.log(messagesStorage)
-          console.log(Message);
+          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages })         
         });
       }
     }
   }, [socket, ChatroomId]);
 
+  //recieve message
+  const [userId, setUserId] = useState('');
+  const [Message, setMessage] = useState({});
+
   useEffect(() => {
     const token = localStorage.getItem("Token");
-    if (token) {
+    if (socket && token && ChatroomId && !messagesStorage[ChatroomId].includes(Message)) {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
-    }
-  
-    if (socket && ChatroomId && !messagesStorage[ChatroomId].includes(Message)) {
       socket.on('receiveMessage', (message) => {
         if (ChatroomId === message.chatroomId) {
           let temp = {};
@@ -59,20 +57,23 @@ const ChatPage = ({ socket }) => {
     }  
   }, [socket, messagesStorage]);
 
-
-  // //autoscroll
+  //autoscroll (need to fix)
   const lastMessageRef = useRef(null);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [Message, userId]);
+
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView();
+  },[ChatroomId])
  
 
   return (
     <div className='chat-container'>
       <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom } />
         <div className='inner-chat-container'>
-          <ChatHeader />
+        <ChatHeader roomName={RoomName} />
           <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />
           {ChatroomId ? (
             < ChatFooter socket={socket} chatroomId={ChatroomId} />

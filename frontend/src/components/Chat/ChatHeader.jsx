@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ChatHeader = () => {
+const ChatHeader = (props) => {
   const navigate = useNavigate();
 
   const handleLeaveChat = () => {
@@ -15,7 +15,8 @@ const ChatHeader = () => {
       <div className="chat-header">
         <button className='leave-chat-button' onClick={handleLeaveChat}>
           <i class="fa-solid fa-chevron-left fa-2x"></i>
-        </button>
+          </button>
+          <span className='room-name-header'>{props.roomName}</span>
       </div>
     </>
   );

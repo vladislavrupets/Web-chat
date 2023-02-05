@@ -35,13 +35,13 @@ const ChatroomsSidebar = (props) => {
     <aside className="chatrooms-sidebar">
       Chatrooms:
       {chatrooms.map((chatroom) => (
-        <div className="chatroom" key={chatroom._id}>
+        <div className="chatroom-container-content" key={chatroom._id}>
+          <span className='chatroom-name'>{chatroom.roomName}</span>
           <button
             className="chatroom-btn"
-            onClick={()=> props.handleClickChatroom(chatroom._id)}
-          >
-            {chatroom.roomName}
-          </button>
+            onClick={()=> props.handleClickChatroom(chatroom._id, chatroom.roomName)}
+            >
+            </button>
         </div>
       ))}
     </aside>
