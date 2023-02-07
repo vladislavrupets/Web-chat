@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React from 'react';
 
 const ChatroomsSidebar = (props) => {
 
@@ -10,12 +10,12 @@ const ChatroomsSidebar = (props) => {
       <div className='search-chatrooms'>
         Search
       </div>
-      {props.chatrooms.map((chatroom) => (
+      {props.chatrooms.map(chatroom => (
         <div className="chatroom-container-content"
           key={chatroom._id}
           onClick={() => props.handleClickChatroom(chatroom._id, chatroom.roomName)}>
           <span className='chatroom-name'>{chatroom.roomName}</span>
-          
+          <span>{props.lastMessages[chatroom._id]}</span>
         </div>
       ))}
     </aside>

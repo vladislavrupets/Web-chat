@@ -8,42 +8,15 @@ module.exports = function joinRoom(socket) {
             socket.join(user.chatroomsList);
             console.log('user joined chatrooms ' + user.chatroomsList);
 
-            
-
-            async function test(){
+            async function getLastMessages() {
                 let lastMessages = []
-                Promise.all(
-                return user.chatroomsList.map(async chatroomId => {
-                    lastMessages.push(await Message.findOne({chatroomId}).sort({ _id: -1 }))
-                });
-                )
+                for (const chatroomId of user.chatroomsList) {
+                    lastMessages.push(await Message.findOne({ chatroomId }).sort({ _id: -1 }))
+                }
+                return lastMessages;
             }
             
-            const capitalizeProductsIds = async () => {
-                const products = await getProducts()
-              
-                Promise.all(
-                  products.map(async (product) => {
-                    const productId = await getProductId(product);
-                    console.log(productId);
-              
-                    const capitalizedId = await capitalizeId(productId)
-                    console.log(capitalizedId);
-                  })
-                )
-              
-                console.log(products);
-              }
-              capitalizeProductsIds();
-              
-            let bebros = await test();
-            console.log(bebros)
-            
-            
-
-            
-            
-            socket.emit('getLastMessages', []);
+             socket.emit('getLastMessages', await getLastMessages());
         }
         catch (e) {
             console.log(e);

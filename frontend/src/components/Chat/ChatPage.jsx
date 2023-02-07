@@ -10,7 +10,14 @@ const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState('');
   const [RoomName, setRoomName] = useState('')
 
-  //get rooms list
+  const handleClickChatroom = (chatroomId, roomName) => {
+    if (chatroomId !== ChatroomId) {
+      setChatroomId(chatroomId);
+      setRoomName(roomName);
+    }
+  }
+
+  //get rooms list and last messages
   const [chatrooms, setRooms] = useState([]);
 
   const getRooms = () => {
@@ -29,27 +36,24 @@ const ChatPage = ({ socket }) => {
       });
   };
 
+  const [lastMessages, setlastMessages] = useState({})
 
   useEffect(() => {
-    getRooms();
     if (socket) {
+      getRooms();
       socket.emit('joinRooms');
-      socket.emit('enterChatPage');
       socket.on('getLastMessages', (messages) => {
-        console.log(messages)
-      })
+        let temp = {};
+        messages.map(message => {
+          temp[message.chatroomId] = (message.messageText);
+        });
+        setlastMessages({...temp})
+      });
     }
   }, [socket]);
 
-  const handleClickChatroom = (chatroomId, roomName) => {
-    if (chatroomId !== ChatroomId) {
-      setChatroomId(chatroomId);
-      setRoomName(roomName);
-    }
-  }
-
+  //get messages on enter chatroom
   const [messagesStorage, setMessagesStorage] = useState({});
- 
 
   useEffect(() => {
     if (socket && ChatroomId) {
@@ -102,7 +106,8 @@ const ChatPage = ({ socket }) => {
 
   return (
     <div className='chat-container'>
-      <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom} chatrooms={chatrooms} />
+      <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom}
+        chatrooms={chatrooms} lastMessages={lastMessages} />
         <div className='inner-chat-container'>
         <ChatHeader roomName={RoomName} />
           <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />
