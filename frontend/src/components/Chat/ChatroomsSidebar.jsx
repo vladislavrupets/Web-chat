@@ -1,40 +1,14 @@
 import React, { useState, useEffect, useContext} from 'react';
-import axios from 'axios';
 
 const ChatroomsSidebar = (props) => {
 
-  //get rooms list
-  const [chatrooms, setRooms] = useState([]);
-
-  const getRooms = () => {
-    axios
-      .get('http://localhost:8000/chatroom', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('Token'),
-        },
-      })
-      .then((res) => {
-        setRooms(res.data);
-      })
-      .catch((err) => {
-        setTimeout(getRooms, 3000);
-        console.log(err);
-      });
-  };
-
-
-  useEffect(() => {
-    getRooms();
-    if (props.socket) {
-      props.socket.emit('joinRooms');
-    }
-  }, [props.socket]);
+  
 
 
   return (
     <aside className="chatrooms-sidebar">
       Chatrooms:
-      {chatrooms.map((chatroom) => (
+      {props.chatrooms.map((chatroom) => (
         <div className="chatroom-container-content" key={chatroom._id}>
           <span className='chatroom-name'>{chatroom.roomName}</span>
           <button

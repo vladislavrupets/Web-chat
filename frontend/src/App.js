@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import io from 'socket.io-client';
 
 import RegisterPage from './components/RegisterPage';
@@ -21,16 +21,17 @@ function App() {
         transports : ['websocket']
       });
    
+      newSocket.on('connect', () => { 
+        console.log('Socket connected.')
+      });
+
       newSocket.on('disconnect', () => {
         setSocket(null);
         setTimeout(setupSocket, 3000);
         console.log('Socket disconnected.')
       });
 
-      newSocket.on('connect', () => {
-        
-        console.log('Socket connected.')
-      });
+      
 
       setSocket(newSocket);
     }

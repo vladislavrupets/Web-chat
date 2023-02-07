@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef} from 'react';
-
+import axios from 'axios';
 
 import ChatBody from './ChatBody';
 import ChatFooter from './ChatFooter';
@@ -9,7 +9,38 @@ import ChatroomsSidebar from './ChatroomsSidebar';
 const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState('');
   const [RoomName, setRoomName] = useState('')
-  
+
+  //get rooms list
+  const [chatrooms, setRooms] = useState([]);
+
+  const getRooms = () => {
+    axios
+      .get('http://localhost:8000/chatroom', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('Token'),
+        },
+      })
+      .then((res) => {
+        setRooms(res.data);
+      })
+      .catch((err) => {
+        setTimeout(getRooms, 3000);
+        console.log(err);
+      });
+  };
+
+
+  useEffect(() => {
+    getRooms();
+    if (socket) {
+      socket.emit('joinRooms');
+      socket.emit('enterChatPage');
+      socket.on('getLastMessages', (messages) => {
+        console.log(messages)
+      })
+    }
+  }, [socket]);
+
   const handleClickChatroom = (chatroomId, roomName) => {
     if (chatroomId !== ChatroomId) {
       setChatroomId(chatroomId);
@@ -17,18 +48,18 @@ const ChatPage = ({ socket }) => {
     }
   }
 
-  //receive messages on enter 
   const [messagesStorage, setMessagesStorage] = useState({});
+ 
 
   useEffect(() => {
     if (socket && ChatroomId) {
       if (!messagesStorage.hasOwnProperty(ChatroomId)) {
-        socket.emit('enter', {
+        socket.emit('enterChatroom', {
         chatroomId: ChatroomId,
       });
-        socket.on('receiveMessagesOnEnter', (messages) => {
+        socket.on('getChatroomMessages', (messages) => {
           console.log(messages);
-          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages })         
+          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });    
         });
       }
     }
@@ -50,8 +81,8 @@ const ChatPage = ({ socket }) => {
           temp[ChatroomId].push(message);
           setMessagesStorage({ ...temp });
           setMessage(message);
-          console.log(messagesStorage[ChatroomId]);
-          console.log(message)
+          console.log(messagesStorage);
+          console.log(message);
         }
       });
     }  
@@ -71,7 +102,7 @@ const ChatPage = ({ socket }) => {
 
   return (
     <div className='chat-container'>
-      <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom } />
+      <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom} chatrooms={chatrooms} />
         <div className='inner-chat-container'>
         <ChatHeader roomName={RoomName} />
           <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />
