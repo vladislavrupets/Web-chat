@@ -100,18 +100,22 @@ code {
 
 .chatroom-container-content{
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
+  flex-flow: column;
+  width: 260px;
   height: 50px;
+  cursor: pointer;
+  box-shadow: 0px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin: 0 0 10px 15px;
+  background-color: #4dc6fa;
 }
 
 .chatroom-name{
-  align-self: flex-start;
+  
 }
 
-.chatroom-btn{
-  align-self: flex-end;
+.search-chatrooms{
+  height: 50px;
 }
 
 /* ChatBody */
