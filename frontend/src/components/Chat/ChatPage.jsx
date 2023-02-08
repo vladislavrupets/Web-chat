@@ -53,7 +53,7 @@ const ChatPage = ({ socket }) => {
   }, [socket]);
 
   //get messages on enter chatroom
-  const [messagesStorage, setMessagesStorage] = useState({});
+  const [messagesStorage, setMessagesStorage] = useState([]);
 
   useEffect(() => {
     if (socket && ChatroomId) {
@@ -85,8 +85,8 @@ const ChatPage = ({ socket }) => {
           temp[ChatroomId].push(message);
           setMessagesStorage({ ...temp });
           setMessage(message);
-          console.log(messagesStorage);
-          console.log(message);
+          setlastMessages({...lastMessages, [ChatroomId]:message.messageText});
+          console.log(messagesStorage)
         }
       });
     }  
