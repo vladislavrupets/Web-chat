@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
 const LoginPage = ({setupSocket}) => {
   const loginRef = useRef(null);
   const passwordRef = useRef(null);
@@ -17,7 +16,6 @@ const LoginPage = ({setupSocket}) => {
       password,
     }).then(res => {
       localStorage.setItem('Token', res.data.token);
-      localStorage.setItem('UserLogin', login);
       navigate('/chat');
       setupSocket();
     }).catch(err => {
