@@ -74,8 +74,8 @@ const ChatPage = ({ socket }) => {
   const [Message, setMessage] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("Token");
     if (socket && token && ChatroomId && !messagesStorage[ChatroomId].includes(Message)) {
+      const token = localStorage.getItem("Token");
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
       socket.on('receiveMessage', (message) => {
@@ -87,10 +87,23 @@ const ChatPage = ({ socket }) => {
           setMessage(message);
           setlastMessages({...lastMessages, [ChatroomId]:message.messageText});
           console.log(messagesStorage)
+          console.log(Message)
         }
       });
     }  
   }, [socket, messagesStorage]);
+
+  useEffect(() => {
+    if (socket && ) {
+      const token = localStorage.getItem("Token");
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      setUserId(payload.id);
+      socket.on('receiveMessage', (message) => {
+        setMessage(message)
+        console.log(message);
+      })
+    }
+  },[socket, Message])
 
   //autoscroll (need to fix)
   const lastMessageRef = useRef(null);
