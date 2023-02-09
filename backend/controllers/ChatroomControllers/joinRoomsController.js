@@ -11,9 +11,11 @@ module.exports = function joinRoom(socket) {
             async function getLastMessages() {
                 let lastMessages = []
                 for (const chatroomId of user.chatroomsList) {
-                    lastMessages.push(await Message.findOne({ chatroomId }).sort({ _id: -1 }))
+                    lastMessages.push(await Message.findOne({ chatroomId }).sort({ _id: -1 }).populate('user', 'login'))
                 }
+                console.log(lastMessages)
                 return lastMessages;
+                
             }
             
              socket.emit('getLastMessages', await getLastMessages());
