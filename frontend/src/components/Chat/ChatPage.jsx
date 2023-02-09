@@ -53,7 +53,7 @@ const ChatPage = ({ socket }) => {
   }, [socket]);
 
   //get messages on enter chatroom
-  const [messagesStorage, setMessagesStorage] = useState([]);
+  const [messagesStorage, setMessagesStorage] = useState('');
 
   useEffect(() => {
     if (socket && ChatroomId) {
@@ -74,47 +74,54 @@ const ChatPage = ({ socket }) => {
   const [Message, setMessage] = useState({});
 
   useEffect(() => {
-    if (socket && token && ChatroomId && !messagesStorage[ChatroomId].includes(Message)) {
+    if (socket) {
       const token = localStorage.getItem("Token");
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
       socket.on('receiveMessage', (message) => {
+        setlastMessages({...lastMessages, [ChatroomId]:message.messageText});
         if (ChatroomId === message.chatroomId) {
           let temp = {};
           Object.assign(temp, messagesStorage);
           temp[ChatroomId].push(message);
           setMessagesStorage({ ...temp });
           setMessage(message);
-          setlastMessages({...lastMessages, [ChatroomId]:message.messageText});
           console.log(messagesStorage)
-          console.log(Message)
         }
       });
     }  
   }, [socket, messagesStorage]);
 
-  useEffect(() => {
-    if (socket && ) {
-      const token = localStorage.getItem("Token");
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      setUserId(payload.id);
-      socket.on('receiveMessage', (message) => {
-        setMessage(message)
-        console.log(message);
-      })
-    }
-  },[socket, Message])
+  // useEffect(() => {
+  //   if (socket) {
+
+  //     const token = localStorage.getItem("Token");
+  //     const payload = JSON.parse(atob(token.split(".")[1]));
+  //     setUserId(payload.id);
+
+  //     socket.on('receiveMessage', (message) => {
+  //                           console.log(messagesStorage)
+
+  //       setlastMessages({ ...lastMessages, [message.chatroomId]: message.messageText })
+  //       console.log(messagesStorage)
+  //       let temp = {};
+  //       Object.assign(temp, messagesStorage);
+  //       temp[message.chatroomId].push(message);
+  //       setMessagesStorage({ ...temp });
+  //     })
+  //   }
+  // },[socket, lastMessages, messagesStorage])
 
   //autoscroll (need to fix)
   const lastMessageRef = useRef(null);
 
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [Message, userId]);
+  // useEffect(() => {
+  //   lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [Message, userId]);
 
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView();
-  },[ChatroomId])
+  // useEffect(() => {
+  //   lastMessageRef.current?.scrollIntoView();
+  // },[ChatroomId])
  
 
   return (
