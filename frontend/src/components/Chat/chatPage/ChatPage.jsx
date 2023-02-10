@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 
-import ChatBody from './ChatBody';
-import ChatFooter from './ChatFooter';
-import ChatHeader from './ChatHeader';
-import ChatroomsSidebar from './ChatroomsSidebar';
+import ChatBody from '../chatBody/ChatBody';
+import ChatFooter from '../chatFooter/ChatFooter';
+import ChatHeader from '../chatHeader/ChatHeader';
+import ChatSidebar from '../chatSidebar/ChatSidebar';
+import './chatPage.css'
 
 const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState('');
@@ -36,20 +37,20 @@ const ChatPage = ({ socket }) => {
       });
   };
 
-  const [lastMessages, setlastMessages] = useState({})
+  const [lastMessages, setlastMessages] = useState()
 
   useEffect(() => {
     if (socket) {
-      getRooms();
       socket.emit('joinRooms');
       socket.on('getLastMessages', (messages) => {
         let temp = {};
         messages.map(message => {
-          temp[message.chatroomId] = message;
+          temp[message.chatroomId] = message
           console.log(temp)
         });
         setlastMessages({...temp})
       });
+      getRooms();
     }
   }, [socket]);
 
@@ -105,7 +106,7 @@ const ChatPage = ({ socket }) => {
 
   return (
     <div className='chat-container'>
-      <ChatroomsSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom}
+      <ChatSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom}
         chatrooms={chatrooms} lastMessages={lastMessages} />
         <div className='inner-chat-container'>
         <ChatHeader roomName={RoomName} />

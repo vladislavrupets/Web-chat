@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 import RegisterPage from './components/RegisterPage';
 import LoginPage from './components/LoginPage';
-import ChatPage from './components/Chat/ChatPage';
+import ChatPage from './components/Chat/chatPage/ChatPage';
 import IndexPage from './components/IndexPage';
 
 function App() {

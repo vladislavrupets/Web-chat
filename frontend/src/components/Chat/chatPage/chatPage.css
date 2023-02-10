@@ -1,0 +1,11 @@
+.chat-container {
+    height: 100vh;
+  }
+  
+  .inner-chat-container{
+    position: absolute;
+    left: 300px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
