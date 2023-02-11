@@ -1,9 +1,9 @@
-const Message = require('../models/messageModel');
-const User = require('../models/userModel');
-const getMessageDate = require('../utilities/UnixDateToUserDate');
+const Message = require('../../models/messageModel');
+const User = require('../../models/userModel');
+const getMessageDate = require('../../utilities/UnixDateToUserDate');
 const mongoose = require('mongoose');
 const generateUniqueId = require('generate-unique-id');
-const { login } = require('./userController');
+const { login } = require('../userController');
 
 module.exports = function sendMessage (io, socket) {
     socket?.on('sendMessage', async ({ chatroomId, message }) => {  

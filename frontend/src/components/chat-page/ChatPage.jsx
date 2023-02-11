@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 
-import ChatBody from '../chatBody/ChatBody';
-import ChatFooter from '../chatFooter/ChatFooter';
-import ChatHeader from '../chatHeader/ChatHeader';
-import ChatSidebar from '../chatSidebar/ChatSidebar';
+import ChatBody from './chat-body/ChatBody';
+import ChatFooter from './chat-footer/ChatFooter';
+import ChatHeader from './chat-header/ChatHeader';
+import ChatSidebar from './chat-sidebar/ChatSidebar';
 import './chatPage.css'
 
 const ChatPage = ({ socket }) => {

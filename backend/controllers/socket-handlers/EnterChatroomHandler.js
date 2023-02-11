@@ -1,7 +1,7 @@
 const Message = require('../../models/messageModel');
 const mongoose = require('mongoose');
 
-module.exports = function onEnter(socket) {
+module.exports = function enterChatroom(socket) {
     socket?.on('enterChatroom', async function ({ chatroomId }) {
         try {
             const messages = await Message.find({ chatroomId }).populate('user', 'login');

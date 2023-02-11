@@ -1,11 +1,8 @@
 import React from 'react';
 
-const ChatBody = (props) => {
+import './chatBody.css'
 
-  // function setDate(date) {
-  //   let dateTemp = date.split(' ');
-  //     return (dateTemp[1]);
-  //   }
+const ChatBody = (props) => {
 
   return (
         <div className='message-container'>

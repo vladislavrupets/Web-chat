@@ -1,4 +1,4 @@
-const Chatroom = require('../../models/chatroomModel');
+const Chatroom = require('../models/chatroomModel');
 
 module.exports.createRoom = async (req, res) => {
     const { roomName } = req.body;

@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import io from 'socket.io-client';
 
-import RegisterPage from './components/RegisterPage';
-import LoginPage from './components/LoginPage';
-import ChatPage from './components/сhat/chatPage/ChatPage';
+import RegisterPage from './components/register-page/RegisterPage';
+import LoginPage from './components/login-page/LoginPage';
+import ChatPage from './components/chat-page/ChatPage';
 import IndexPage from './components/IndexPage';
 
 function App() {

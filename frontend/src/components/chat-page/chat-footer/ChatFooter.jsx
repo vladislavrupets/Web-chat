@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import './chatFooter.css'
+
 const ChatFooter = (props) => {
   const [message, setMessage] = useState('');
 

@@ -6,7 +6,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 require('dotenv').config();
 
-const onConnectionToRooms = require('./controllers/onConnectionToRoomsController');
+const connectionToChat = require('./controllers/connectionToChatController');
 
 const PORT = process.env.PORT || 8000;
 const IP = process.env.IP || 'localhost';
@@ -44,7 +44,7 @@ userNamespace.use(async (socket, next) => {
 
 userNamespace.on('connection', socket => {
     console.log('user connected', socket.userId);
-    onConnectionToRooms(userNamespace, socket);
+    connectionToChat(userNamespace, socket);
 
     socket.on('disconnect', () => {
         console.log('user disconnected', socket.userId);
