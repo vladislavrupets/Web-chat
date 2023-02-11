@@ -1,0 +1,53 @@
+.register-container {
+    position: absolute;
+    top: 200px;
+    right: 0;
+    left: 0;
+    width: 350px;
+    height: 400px;
+    background-color: #272e47;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: auto;
+  }
+  
+  .register-header {
+    color: #8e94a3;
+  }
+  
+  .login-input{
+    /* padding: 5px 20px;
+    margin: 5px;
+    background-color: #272e47;
+    border: none; */
+    border: none;
+	border-bottom: 2px solid #D1D1D4;
+	background: none;
+	padding: 10px;
+	padding-left: 24px;
+	font-weight: 700;
+	width: 65%;
+	transition: .2s;
+  }
+  .login-input:active,
+  .login-input:focus,
+  .login-input:hover{
+    outline: none;
+    border-bottom-color: #6A679E;
+  }
+  
+  .password-input{
+    padding: 5px 20px;
+    margin: 5px;
+    background-color: #272e47;
+  }
+  
+  .register-btn{
+    margin: 5px 0 15px;
+    padding: 4px 15px;
+  }
+  

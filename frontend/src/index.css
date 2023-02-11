@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: #1a2339;
 }
 
 code {
@@ -15,35 +15,5 @@ code {
     monospace;
 }
 
-/* RegisterPage */
-
-.register-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 5px;
-  
-}
-
-.register-header {
-  padding: 0 100px;
-}
-
-.login-input{
-  padding: 5px 20px;
-  margin: 5px;
-}
-
-.password-input{
-  padding: 5px 20px;
-  margin: 5px;
-}
-
-.register-btn{
-  margin: 5px 0 15px;
-  padding: 4px 15px;
-}
 
 

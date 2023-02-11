@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import './loginPage.css'
+
 const LoginPage = ({setupSocket}) => {
   const loginRef = useRef(null);
   const passwordRef = useRef(null);

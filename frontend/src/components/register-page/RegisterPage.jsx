@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import './registerPage.css'
 
 const RegisterPage = () => {
   const loginRef = useRef(null);
@@ -35,7 +36,7 @@ const RegisterPage = () => {
     
   return (
     <form className="register-container" onSubmit={handleSubmit}>
-      <h2 className="register-header">Chat</h2>
+      <h2 className="register-header">Registration</h2>
       <input
         className='login-input'
         type="text"
