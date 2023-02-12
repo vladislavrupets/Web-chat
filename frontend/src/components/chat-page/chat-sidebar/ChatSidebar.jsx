@@ -22,13 +22,15 @@ const ChatroomsSidebar = (props) => {
           <div className="chatroom-container-content"
             key={chatroom._id}
             onClick={() => props.handleClickChatroom(chatroom._id, chatroom.roomName)}>
-            <span className='chatroom-name'>{chatroom.roomName}</span>
-            {props.lastMessages[chatroom._id].userId === props.userId ? (
-              <span>You:</span>
-            ) : (
-              <span>{props.lastMessages[chatroom._id].user.login}</span>
-            )}
-            <span>{props.lastMessages[chatroom._id].messageText}</span>
+            <h4 className='chatroom-name'>{chatroom.roomName}</h4>
+            <div className="inner-chatroom-content">
+              {props.lastMessages[chatroom._id].userId === props.userId ? (
+                <span className='chatroom-content-own'>You:</span>
+              ) : (
+                <span className='chatroom-content-login'>{props.lastMessages[chatroom._id].user.login}</span>
+              )}
+              <span className='chatroom-content-message'>{props.lastMessages[chatroom._id].messageText}</span>
+            </div>
           </div>
         ))}
       </aside>

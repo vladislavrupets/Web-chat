@@ -1,12 +1,31 @@
 .message-container {
     position: absolute;
     top: 50px;
-    right: 0;
+    right: 0px;
     left: 0;
     bottom: 50px;
     overflow-y: scroll;
     padding: 0 50px 0 50px;
 }
+
+.message-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .message-container::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+  }
+  .message-container::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background: rgba(0,0,0,0.2);
+  }
+  .message-container-webkit-scrollbar-thumb:hover{
+  	background: rgba(0,0,0,0.4);
+  }
+  .message-container::-webkit-scrollbar-thumb:active{
+  	background: rgba(10, 10, 10, 0.9);
+  }
 
 /* ContentSender */
 
@@ -14,7 +33,7 @@
     display: table;
     max-width: 80%;
     margin: 10px 0px 10px auto;
-    background-color: #4dc6fa;
+    background-color: #493da7;
     border-radius: 20px;
 
 }
@@ -30,6 +49,7 @@
     margin: 10px 15px 10px 10px;
     overflow-wrap: break-word;
     word-break: break-all;
+    color: #9ca2af;
 
 }
 
@@ -47,7 +67,7 @@
     display: table;
     max-width: 80%;
     margin: 10px 0px 10px 0px;
-    background-color: #ffffff;
+    background-color: #273153;
     border-radius: 15px;
 }
 
@@ -72,6 +92,7 @@
     margin: 3px 15px 10px 10px;
     overflow-wrap: break-word;
     word-break: break-all;
+    color: #9ca2af;
 }
 
 .recipient-time {

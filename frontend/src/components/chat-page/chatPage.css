@@ -4,8 +4,8 @@
   
   .inner-chat-container{
     position: absolute;
-    left: 300px;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    left: 340px;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
   }

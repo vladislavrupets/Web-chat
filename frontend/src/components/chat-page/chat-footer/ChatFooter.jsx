@@ -25,7 +25,7 @@ const ChatFooter = (props) => {
         <input
           type="text"
           placeholder="Type message..."
-          className="message"
+          className="message-input"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
