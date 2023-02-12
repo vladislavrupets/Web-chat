@@ -2,7 +2,8 @@
 
 ### Features
 
-- Real-time chat between multiple users
+- Real-time chating between multiple users
+- Different chatrooms
 - Saving messages to MongoDb
 - Jwt authentication
 

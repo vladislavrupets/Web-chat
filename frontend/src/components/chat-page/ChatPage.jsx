@@ -48,7 +48,7 @@ const ChatPage = ({ socket }) => {
           temp[message.chatroomId] = message
           console.log(temp)
         });
-        setlastMessages({...temp})
+        setlastMessages({...temp});
       });
       getRooms();
     }
@@ -107,7 +107,7 @@ const ChatPage = ({ socket }) => {
   return (
     <div className='chat-container'>
       <ChatSidebar className='sidebar' socket={socket} handleClickChatroom={handleClickChatroom}
-        chatrooms={chatrooms} lastMessages={lastMessages} />
+        chatrooms={chatrooms} lastMessages={lastMessages} userId={userId}/>
         <div className='inner-chat-container'>
         <ChatHeader roomName={RoomName} />
           <ChatBody messages={messagesStorage[ChatroomId]} lastMessageRef={lastMessageRef} userId={userId} />

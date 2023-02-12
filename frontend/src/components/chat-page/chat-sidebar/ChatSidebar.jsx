@@ -13,6 +13,7 @@ const ChatroomsSidebar = (props) => {
   
   //need to fix
   if (props.lastMessages) {
+    console.log(props)
     return (
       <aside className="chat-sidebar">
         <div className='logout-btn' onClick={handleLeaveChat}>
@@ -24,10 +25,10 @@ const ChatroomsSidebar = (props) => {
             onClick={() => props.handleClickChatroom(chatroom._id, chatroom.roomName)}>
             <h4 className='chatroom-name'>{chatroom.roomName}</h4>
             <div className="inner-chatroom-content">
-              {props.lastMessages[chatroom._id].userId === props.userId ? (
+              {props.lastMessages[chatroom._id].user._id === props.userId ? (
                 <span className='chatroom-content-own'>You:</span>
               ) : (
-                <span className='chatroom-content-login'>{props.lastMessages[chatroom._id].user.login}</span>
+                <span className='chatroom-content-login'>{props.lastMessages[chatroom._id].user.login + ':'}</span>
               )}
               <span className='chatroom-content-message'>{props.lastMessages[chatroom._id].messageText}</span>
             </div>
