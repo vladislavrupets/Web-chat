@@ -1,18 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  lazy,
-  Suspense,
-} from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 
+import ChatBody from "./chat-body/ChatBody";
 import ChatFooter from "./chat-footer/ChatFooter";
 import ChatHeader from "./chat-header/ChatHeader";
 import ChatSidebar from "./chat-sidebar/ChatSidebar";
 import "./chatPage.css";
-const ChatBody = lazy(() => import("./chat-body/ChatBody"));
 
 const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState("");
@@ -70,19 +63,15 @@ const ChatPage = ({ socket }) => {
 
   //get messages on enter chatroom
 
-  const getPreviosMessages = () => {
-    socket.on("getChatroomMessages", (messages) => {
-      setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
-    });
-  };
-
   useEffect(() => {
     if (socket && ChatroomId) {
       if (!messagesStorage.hasOwnProperty(ChatroomId)) {
         socket.emit("enterChatroom", {
           chatroomId: ChatroomId,
         });
-        getPreviosMessages();
+        socket.on("getChatroomMessages", (messages) => {
+          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
+        });
       }
     }
   }, [socket, ChatroomId]);
@@ -133,13 +122,11 @@ const ChatPage = ({ socket }) => {
       {ChatroomId ? (
         <div className="inner-chat-container">
           <ChatHeader roomName={RoomName} />
-          <Suspense fallback={<div>Loading</div>}>
-            <ChatBody
-              messages={messagesStorage[ChatroomId]}
-              lastMessageRef={lastMessageRef}
-              userId={userId}
-            />
-          </Suspense>
+          <ChatBody
+            messages={messagesStorage[ChatroomId]}
+            lastMessageRef={lastMessageRef}
+            userId={userId}
+          />
           <ChatFooter socket={socket} chatroomId={ChatroomId} />
         </div>
       ) : (
