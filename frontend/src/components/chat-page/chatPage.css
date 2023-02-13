@@ -3,7 +3,7 @@
 }
 
 .inner-chat-container {
-  position: absolute;
+  position: fixed;
   left: 340px;
   right: 20px;
   top: 20px;

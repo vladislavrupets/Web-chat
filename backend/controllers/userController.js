@@ -26,13 +26,16 @@ module.exports.login = async function (req, res) {
     login,
     password: sha256(password + process.env.SALT),
   });
+  let token;
+  try {
+    if (!user) {
+      throw "Login or password did not match.";
+    }
 
-  if (!user) {
-    throw "Login or password did not match.";
+    token = await jwt.sign({ id: user.id }, process.env.SECRET);
+  } catch (err) {
+    res.status(400).json(err);
   }
-
-  const token = await jwt.sign({ id: user.id }, process.env.SECRET);
-
   res.json({
     message: "Logged in successfully.",
     token,
