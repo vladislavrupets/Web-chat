@@ -1,77 +1,75 @@
 .authorization-container {
-    position: absolute;
-    top: 100px;
-    right: 0;
-    left: 0;
-    width: 350px;
-    height: 400px;
-    background-color: #272e47;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 20px;
-    margin: auto;
-  }
-  
-  .authorization-header {
-    margin: 30px 0 50px 0;
-    padding: 0;
-    color: #9ca2af;
-  }
-  
-  .user-input{
-    border: none;
-    border-bottom: 2px solid #D1D1D4;
-    color: #bfc0c5;
-    background: none;
-    margin-bottom: 30px;
-    padding: 0;
-    font-weight:800;
-    width: 65%;
-    transition: 0.2s;
-  }
-  .user-input:active,
-  .user-input:focus,
-  .user-input:hover{
-    outline: none;
-    border-bottom-color: #5848ce;
-  }
-  
-  .register-btn{
-    margin-top: 40px;
-    padding: 10px 30px 10px 30px;
-    background-color: #5848ce;
-    color: #bfc0c5;
-    font-weight: 900;
-    font-size: medium;
-    border-radius: 10px;
-    opacity: 0.6;
-    transition: 0.3s;
-    border:none;
-    cursor: pointer;
-  }
+  position: absolute;
+  top: 100px;
+  right: 0;
+  left: 0;
+  width: 350px;
+  height: 400px;
+  background-color: #272e47;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  margin: auto;
+}
 
-  .register-btn:hover {
-    opacity: 1
-  }
+.authorization-header {
+  margin: 30px 0 50px 0;
+  padding: 0;
+  color: #9ca2af;
+}
 
-  .login-btn {
-    margin-top: 90px;
-    padding: 10px 30px 10px 30px;
-    background-color: #5848ce;
-    color: #bfc0c5;
-    font-weight: 900;
-    font-size: medium;
-    border-radius: 10px;
-    opacity: 0.6;
-    transition: 0.3s;
-    border: none;
-    cursor: pointer;
-  }
+.user-input {
+  border: none;
+  border-bottom: 2px solid #d1d1d4;
+  color: #bfc0c5;
+  background: none;
+  margin-bottom: 30px;
+  padding: 0;
+  font-weight: 800;
+  width: 65%;
+  transition: 0.2s;
+}
+.user-input:active,
+.user-input:focus,
+.user-input:hover {
+  outline: none;
+  border-bottom-color: #5848ce;
+}
 
-  .login-btn:hover {
-    opacity: 1
-  }
+.register-btn {
+  margin-top: 40px;
+  padding: 10px 30px 10px 30px;
+  background-color: #5848ce;
+  color: #bfc0c5;
+  font-weight: 900;
+  font-size: medium;
+  border-radius: 10px;
+  opacity: 0.6;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+}
 
-  
+.register-btn:hover {
+  opacity: 1;
+}
+
+.login-btn {
+  margin-top: 90px;
+  padding: 10px 30px 10px 30px;
+  background-color: #5848ce;
+  color: #bfc0c5;
+  font-weight: 900;
+  font-size: medium;
+  border-radius: 10px;
+  opacity: 0.6;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  opacity: 1;
+}

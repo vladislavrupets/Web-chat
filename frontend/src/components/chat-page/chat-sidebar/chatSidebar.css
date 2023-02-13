@@ -1,50 +1,48 @@
-.chat-sidebar{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    bottom: 20px;
-    height: 95.5%;
-    width: 300px;
-    background-color: #272e47;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 20px;
-  }
-  
-  
-  .chatroom-container-content{
-    display: flex;
-    flex-flow: column;
-    width: 260px;
-    height: 50px;
-    cursor: pointer;
-    box-shadow: 0px 1px rgba(0, 0, 0, 0.25);
-    margin: 0 0 10px 15px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-  }
-  
-  .chatroom-name{
-    color: #9ca2af;
-    padding: 0;
-    margin: 0;
-  }
+.chat-sidebar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  bottom: 20px;
+  height: 95.5%;
+  width: 300px;
+  background-color: #272e47;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+}
 
-  .chatroom-content-own{
-    color: #9ca2af;
-  }
+.chatroom-container-content {
+  display: flex;
+  flex-flow: column;
+  width: 260px;
+  height: 50px;
+  cursor: pointer;
+  box-shadow: 0px 1px rgba(0, 0, 0, 0.25);
+  margin: 0 0 10px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .chatroom-content-login{
-    color: #9ca2af;
-  }
+.chatroom-name {
+  color: #9ca2af;
+  padding: 0;
+  margin: 0;
+}
 
-  .chatroom-content-message{
-    color: #9ca2af;
-    margin-left: 5px;
-    
-  }
-  
-  .logout-btn{
-    margin: 15px 0 40px 15px;
-    color: #9ca2af;
-  }
+.chatroom-content-own {
+  color: #9ca2af;
+}
+
+.chatroom-content-login {
+  color: #9ca2af;
+}
+
+.chatroom-content-message {
+  color: #9ca2af;
+  margin-left: 5px;
+}
+
+.logout-btn {
+  margin: 15px 0 40px 15px;
+  color: #9ca2af;
+}
