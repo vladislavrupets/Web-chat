@@ -1,6 +1,6 @@
 const sendMessage = require("./socket-handlers/sendMessageHandler");
 const joinRooms = require("./socket-handlers/joinRoomsHandler");
-const enterChatroom = require("./socket-handlers/EnterChatroomHandler");
+const enterChatroom = require("./socket-handlers/enterChatroomHandler");
 //const leaveRoom = require("./ChatroomControllers/leaveRoomComtroller");
 
 module.exports = function connectionToChat(io, socket) {

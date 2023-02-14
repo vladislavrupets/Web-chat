@@ -15,8 +15,9 @@ const ChatPage = ({ socket }) => {
   const [messagesStorage, setMessagesStorage] = useState("");
   const [Message, setMessage] = useState({});
   const [lastMessages, setlastMessages] = useState();
-  const lastMessageRef = useRef(null);
   const [userId, setUserId] = useState("");
+
+  const lastMessageRef = useRef(null);
 
   const handleClickChatroom = useCallback(
     (chatroomId, roomName) => {
@@ -53,7 +54,6 @@ const ChatPage = ({ socket }) => {
         let temp = {};
         messages.map((message) => {
           temp[message.chatroomId] = message;
-          console.log(temp);
         });
         setlastMessages({ ...temp });
       });
@@ -63,15 +63,21 @@ const ChatPage = ({ socket }) => {
 
   //get messages on enter chatroom
 
+  const fetchData = (messagesCount) => {
+    socket.emit("enterChatroom", {
+      chatroomId: ChatroomId,
+      messagesCount,
+    });
+    socket.on("getChatroomMessages", (messages) => {
+      setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
+      console.log(messages);
+    });
+  };
+
   useEffect(() => {
     if (socket && ChatroomId) {
       if (!messagesStorage.hasOwnProperty(ChatroomId)) {
-        socket.emit("enterChatroom", {
-          chatroomId: ChatroomId,
-        });
-        socket.on("getChatroomMessages", (messages) => {
-          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
-        });
+        fetchData();
       }
     }
   }, [socket, ChatroomId]);
@@ -103,11 +109,20 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [Message, userId]);
+  }, [ChatroomId]);
 
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView();
-  }, [handleClickChatroom]);
+  // useEffect(() => {
+  //   lastMessageRef.current?.scrollIntoView();
+  // }, [handleClickChatroom]);
+
+  const [scrollTop, setScrollTop] = useState();
+  const [isFetching, setIsFetching] = useState(false);
+  const handleScroll = (event) => {
+    if (event.currentTarget.scrollTop === 0) {
+      fetchData(messagesStorage[ChatroomId].length);
+      console.log(messagesStorage);
+    }
+  };
 
   return (
     <div className="chat-container">
@@ -126,6 +141,7 @@ const ChatPage = ({ socket }) => {
             messages={messagesStorage[ChatroomId]}
             lastMessageRef={lastMessageRef}
             userId={userId}
+            handleScroll={handleScroll}
           />
           <ChatFooter socket={socket} chatroomId={ChatroomId} />
         </div>

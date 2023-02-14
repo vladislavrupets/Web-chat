@@ -13,7 +13,6 @@ const ChatroomsSidebar = (props) => {
 
   //need to fix
   if (props.lastMessages) {
-    console.log(props);
     return (
       <aside className="chat-sidebar">
         <div className="logout-btn" onClick={handleLeaveChat}>

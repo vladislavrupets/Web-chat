@@ -2,9 +2,13 @@ import React from "react";
 
 import "./message.css";
 
-const Message = ({ message, userId }) => {
+const Message = ({ message, userId, lastMessageRef }) => {
   return message.user._id === userId ? (
-    <div className="content-sender" key={message.messageId || message._id}>
+    <div
+      className="content-sender"
+      key={message.messageId || message._id}
+      ref={lastMessageRef}
+    >
       <div className="inner-content-sender">
         <p className="sender-text">{message.messageText}</p>
         <span className="sender-time">{message.sendDate}</span>
