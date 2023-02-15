@@ -53,7 +53,9 @@ const ChatPage = ({ socket }) => {
       socket.on("getLastMessages", (messages) => {
         let temp = {};
         messages.map((message) => {
-          temp[message.chatroomId] = message;
+          if (message) {
+            temp[message.chatroomId] = message;
+          }
         });
         setlastMessages({ ...temp });
       });
@@ -69,13 +71,26 @@ const ChatPage = ({ socket }) => {
       messagesCount,
     });
     socket.on("getChatroomMessages", (messages) => {
-      setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
-      console.log(messages);
+      if (messagesStorage) {
+        let temp = {};
+        Object.assign(temp, messagesStorage);
+        temp[ChatroomId].unshift(...messages);
+        setMessagesStorage({ ...temp });
+        console.log(temp);
+      } else {
+        let copyObj = {};
+        copyObj[ChatroomId] = {
+          messages,
+        };
+        setMessagesStorage({ [ChatroomId]: messages });
+        console.log(copyObj);
+      }
     });
   };
 
   useEffect(() => {
     if (socket && ChatroomId) {
+      console.log(messagesStorage);
       if (!messagesStorage.hasOwnProperty(ChatroomId)) {
         fetchData();
       }

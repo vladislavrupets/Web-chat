@@ -27,18 +27,22 @@ const ChatroomsSidebar = (props) => {
             }
           >
             <h4 className="chatroom-name">{chatroom.roomName}</h4>
-            <div className="inner-chatroom-content">
-              {props.lastMessages[chatroom._id].user._id === props.userId ? (
-                <span className="chatroom-content-own">You:</span>
-              ) : (
-                <span className="chatroom-content-login">
-                  {props.lastMessages[chatroom._id].user.login + ":"}
+            {props.lastMessages[chatroom._id] ? (
+              <div className="inner-chatroom-content">
+                {props.lastMessages[chatroom._id].user._id === props.userId ? (
+                  <span className="chatroom-content-own">You:</span>
+                ) : (
+                  <span className="chatroom-content-login">
+                    {props.lastMessages[chatroom._id].user.login + ":"}
+                  </span>
+                )}
+                <span className="chatroom-content-message">
+                  {props.lastMessages[chatroom._id].messageText}
                 </span>
-              )}
-              <span className="chatroom-content-message">
-                {props.lastMessages[chatroom._id].messageText}
-              </span>
-            </div>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         ))}
       </aside>
