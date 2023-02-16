@@ -20,7 +20,6 @@ module.exports = function sendMessage(io, socket) {
         sendDate,
         chatroomId,
       });
-
       await Message.create({
         user: mongoose.Types.ObjectId(socket.userId),
         chatroomId,

@@ -10,9 +10,9 @@ module.exports = function enterChatroom(socket) {
         .skip(messagesCount)
         .limit(30);
       let mes = messages.reverse();
-      console.log("bebra" + messagesCount);
-      console.log(mes.length);
-      socket.emit("getChatroomMessages", mes);
+      socket.emit("getChatroomMessages", mes, (res) => {
+        console.log(res);
+      });
     } catch (err) {
       console.log(err);
     }

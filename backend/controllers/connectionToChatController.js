@@ -8,4 +8,5 @@ module.exports = function connectionToChat(io, socket) {
   enterChatroom(socket);
   //leaveRoom(socket);
   sendMessage(io, socket);
+  console.log("tima");
 };

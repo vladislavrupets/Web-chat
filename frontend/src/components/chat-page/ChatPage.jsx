@@ -64,54 +64,74 @@ const ChatPage = ({ socket }) => {
   }, [socket]);
 
   //get messages on enter chatroom
+  const [msgStorageLength, setmsgStorageLength] = useState(null);
+
+  const scrollHandler = (e) => {
+    // console.log(
+    //   e.currentTarget.scrollHeight -
+    //     (e.currentTarget.scrollTop + window.innerHeight)
+    // );
+    // if (
+    //   e.currentTarget.scrollHeight -
+    //     (e.currentTarget.scrollTop + window.innerHeight) >
+    //   400
+    // ) {
+    //   fetchData(messagesStorage[ChatroomId]?.length);
+    // }
+
+    if (e.currentTarget.scrollTop === 0) {
+      fetchData(messagesStorage[ChatroomId]?.length);
+      console.log(ChatroomId);
+    }
+  };
 
   const fetchData = (messagesCount) => {
     socket.emit("enterChatroom", {
       chatroomId: ChatroomId,
       messagesCount,
     });
-    socket.on("getChatroomMessages", (messages) => {
-      if (messagesStorage) {
-        let temp = {};
-        Object.assign(temp, messagesStorage);
-        temp[ChatroomId].unshift(...messages);
-        setMessagesStorage({ ...temp });
-        console.log(temp);
-      } else {
-        let copyObj = {};
-        copyObj[ChatroomId] = {
-          messages,
-        };
-        setMessagesStorage({ [ChatroomId]: messages });
-        console.log(copyObj);
-      }
+    socket.on("getChatroomMessages", (messages, callback) => {
+      let temp = {};
+      Object.assign(temp, messagesStorage);
+      temp[ChatroomId].unshift(...messages);
+      setMessagesStorage({ ...temp });
+      callback({ status: "bebra" });
     });
   };
-  const [isFetching, setIsFetching] = useState(false);
-  useEffect(() => {
-    if (socket && ChatroomId) {
-      if (!messagesStorage[ChatroomId]) {
-        fetchData();
-      } else if (isFetching) {
-        console.log("test");
-        fetchData(messagesStorage[ChatroomId].length);
-        setIsFetching(false);
-      }
-    }
-  }, [socket, ChatroomId, isFetching]);
 
-  //recieve message
+  useEffect(() => {
+    socket?.emit("enterChatroom", {
+      chatroomId: ChatroomId,
+    });
+    socket?.on("getChatroomMessages", (messages, callback) => {
+      setMessagesStorage({ [ChatroomId]: messages });
+      callback({ status: "sanya" });
+    });
+    setTimeout(() => {
+      socket?.off("getChatroomMessages");
+    }, 300);
+  }, [ChatroomId]);
+  // useEffect(() => {
+  //   if (socket && ChatroomId && isFetching) {
+  //     fetchData(msgStorageLength);
+  //     setmsgStorageLength((prev) => prev + 30);
+  //     setIsFetching(false);
+  //   }
+  // }, [socket, ChatroomId, isFetching]);
+
+  // recieve message
 
   useEffect(() => {
     if (socket) {
       const token = localStorage.getItem("Token");
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
+
       socket.on("receiveMessage", (message) => {
         setlastMessages({ ...lastMessages, [message.chatroomId]: message });
         if (
-          ChatroomId === message.chatroomId &&
-          !messagesStorage[ChatroomId].includes(Message)
+          ChatroomId === message.chatroomId
+          // !messagesStorage[ChatroomId].includes(Message)
         ) {
           let temp = {};
           Object.assign(temp, messagesStorage);
@@ -120,27 +140,19 @@ const ChatPage = ({ socket }) => {
           setMessage(message);
         }
       });
+      socket.off("receiveMessage", "receiveMessage");
     }
   }, [socket, messagesStorage, lastMessages]);
 
   //autoscroll (need to fix)
 
   useEffect(() => {
-    lastMessageRef.current?.scroll({
-      top: lastMessageRef.current?.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [ChatroomId, lastMessageRef]);
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [ChatroomId, messagesStorage]);
 
   // useEffect(() => {
   //   lastMessageRef.current?.scrollIntoView();
   // }, [handleClickChatroom]);
-
-  const scrollHandler = (e) => {
-    if (e.currentTarget.scrollTop === 0) {
-      setIsFetching(true);
-    }
-  };
 
   return (
     <div className="chat-container" id="111">
