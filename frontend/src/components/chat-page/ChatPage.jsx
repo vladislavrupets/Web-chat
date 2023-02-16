@@ -87,15 +87,18 @@ const ChatPage = ({ socket }) => {
       }
     });
   };
-
+  const [isFetching, setIsFetching] = useState(false);
   useEffect(() => {
     if (socket && ChatroomId) {
-      console.log(messagesStorage);
-      if (!messagesStorage.hasOwnProperty(ChatroomId)) {
+      if (!messagesStorage[ChatroomId]) {
         fetchData();
+      } else if (isFetching) {
+        console.log("test");
+        fetchData(messagesStorage[ChatroomId].length);
+        setIsFetching(false);
       }
     }
-  }, [socket, ChatroomId]);
+  }, [socket, ChatroomId, isFetching]);
 
   //recieve message
 
@@ -123,24 +126,24 @@ const ChatPage = ({ socket }) => {
   //autoscroll (need to fix)
 
   useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [ChatroomId]);
+    lastMessageRef.current?.scroll({
+      top: lastMessageRef.current?.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [ChatroomId, lastMessageRef]);
 
   // useEffect(() => {
   //   lastMessageRef.current?.scrollIntoView();
   // }, [handleClickChatroom]);
 
-  const [scrollTop, setScrollTop] = useState();
-  const [isFetching, setIsFetching] = useState(false);
-  const handleScroll = (event) => {
-    if (event.currentTarget.scrollTop === 0) {
-      fetchData(messagesStorage[ChatroomId].length);
-      console.log(messagesStorage);
+  const scrollHandler = (e) => {
+    if (e.currentTarget.scrollTop === 0) {
+      setIsFetching(true);
     }
   };
 
   return (
-    <div className="chat-container">
+    <div className="chat-container" id="111">
       <ChatSidebar
         className="sidebar"
         socket={socket}
@@ -156,7 +159,7 @@ const ChatPage = ({ socket }) => {
             messages={messagesStorage[ChatroomId]}
             lastMessageRef={lastMessageRef}
             userId={userId}
-            handleScroll={handleScroll}
+            scrollHandler={scrollHandler}
           />
           <ChatFooter socket={socket} chatroomId={ChatroomId} />
         </div>

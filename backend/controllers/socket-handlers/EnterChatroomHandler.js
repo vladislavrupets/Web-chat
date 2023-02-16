@@ -8,7 +8,7 @@ module.exports = function enterChatroom(socket) {
         .populate("user", "login")
         .sort({ _id: -1 })
         .skip(messagesCount)
-        .limit(10);
+        .limit(30);
       let mes = messages.reverse();
       console.log("bebra" + messagesCount);
       console.log(mes.length);
