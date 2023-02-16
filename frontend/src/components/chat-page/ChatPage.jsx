@@ -64,62 +64,48 @@ const ChatPage = ({ socket }) => {
   }, [socket]);
 
   //get messages on enter chatroom
-  const [msgStorageLength, setmsgStorageLength] = useState(null);
 
-  const scrollHandler = (e) => {
-    // console.log(
-    //   e.currentTarget.scrollHeight -
-    //     (e.currentTarget.scrollTop + window.innerHeight)
-    // );
-    // if (
-    //   e.currentTarget.scrollHeight -
-    //     (e.currentTarget.scrollTop + window.innerHeight) >
-    //   400
-    // ) {
-    //   fetchData(messagesStorage[ChatroomId]?.length);
-    // }
-
-    if (e.currentTarget.scrollTop === 0) {
-      fetchData(messagesStorage[ChatroomId]?.length);
-      console.log(ChatroomId);
-    }
-  };
-
-  const fetchData = (messagesCount) => {
-    socket.emit("enterChatroom", {
+  const fetchDataOnEnterRoom = () => {
+    socket?.emit("enterChatroom", {
       chatroomId: ChatroomId,
-      messagesCount,
     });
-    socket.on("getChatroomMessages", (messages, callback) => {
-      let temp = {};
-      Object.assign(temp, messagesStorage);
-      temp[ChatroomId].unshift(...messages);
-      setMessagesStorage({ ...temp });
-      callback({ status: "bebra" });
+    socket?.off("getChatroomMessages").on("getChatroomMessages", (messages) => {
+      setMessagesStorage({ [ChatroomId]: messages });
     });
   };
 
   useEffect(() => {
-    socket?.emit("enterChatroom", {
-      chatroomId: ChatroomId,
-    });
-    socket?.on("getChatroomMessages", (messages, callback) => {
-      setMessagesStorage({ [ChatroomId]: messages });
-      callback({ status: "sanya" });
-    });
-    setTimeout(() => {
-      socket?.off("getChatroomMessages");
-    }, 300);
+    fetchDataOnEnterRoom();
   }, [ChatroomId]);
-  // useEffect(() => {
-  //   if (socket && ChatroomId && isFetching) {
-  //     fetchData(msgStorageLength);
-  //     setmsgStorageLength((prev) => prev + 30);
-  //     setIsFetching(false);
-  //   }
-  // }, [socket, ChatroomId, isFetching]);
 
-  // recieve message
+  //messages lazy loading
+  const [isFetch, setisFetch] = useState(false);
+  const fetchMoreData = (messagesCount) => {
+    socket.emit("enterChatroom", {
+      chatroomId: ChatroomId,
+      messagesCount,
+    });
+    socket.off("getChatroomMessages").on("getChatroomMessages", (messages) => {
+      let temp = {};
+      Object.assign(temp, messagesStorage);
+      temp[ChatroomId].unshift(...messages);
+      setMessagesStorage({ ...temp });
+    });
+  };
+
+  const scrollHandler = (e) => {
+    console.log(
+      (e.currentTarget.scrollTop * 2 * 100) / e.currentTarget.scrollHeight
+    );
+    if (
+      (e.currentTarget.scrollTop * 2 * 100) / e.currentTarget.scrollHeight <
+      30
+    ) {
+      fetchMoreData(messagesStorage[ChatroomId]?.length);
+    }
+  };
+
+  //recieve message
 
   useEffect(() => {
     if (socket) {
@@ -127,12 +113,9 @@ const ChatPage = ({ socket }) => {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUserId(payload.id);
 
-      socket.on("receiveMessage", (message) => {
+      socket.off("receiveMessage").on("receiveMessage", (message) => {
         setlastMessages({ ...lastMessages, [message.chatroomId]: message });
-        if (
-          ChatroomId === message.chatroomId
-          // !messagesStorage[ChatroomId].includes(Message)
-        ) {
+        if (ChatroomId === message.chatroomId) {
           let temp = {};
           Object.assign(temp, messagesStorage);
           temp[ChatroomId].push(message);
@@ -140,7 +123,6 @@ const ChatPage = ({ socket }) => {
           setMessage(message);
         }
       });
-      socket.off("receiveMessage", "receiveMessage");
     }
   }, [socket, messagesStorage, lastMessages]);
 

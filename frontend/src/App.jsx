@@ -14,7 +14,7 @@ function App() {
   const setupSocket = () => {
     const token = localStorage.getItem("Token");
     if (token && !socket) {
-      const newSocket = io("http://localhost:8000/users", {
+      const newSocket = io("http://localhost:8000", {
         query: {
           token: localStorage.getItem("Token"),
         },

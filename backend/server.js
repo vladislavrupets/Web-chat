@@ -25,9 +25,9 @@ async function start(port, ip, dbLink) {
 
 start(PORT, IP, DB_LINK);
 
-const userNamespace = io.of("/users");
+// const userNamespace = io.of("/users");
 
-userNamespace.use(async (socket, next) => {
+io.use(async (socket, next) => {
   try {
     const token = socket.handshake.query.token;
     const payload = await jwt.verify(token, process.env.SECRET);
@@ -38,9 +38,9 @@ userNamespace.use(async (socket, next) => {
   }
 });
 
-userNamespace.on("connection", (socket) => {
+io.on("connection", (socket) => {
   console.log("user connected", socket.userId);
-  connectionToChat(userNamespace, socket);
+  connectionToChat(io, socket);
 
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.userId);
