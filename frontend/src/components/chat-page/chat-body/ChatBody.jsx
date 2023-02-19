@@ -1,29 +1,59 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./chatBody.css";
-const Message = lazy(() => import("./chat-messages/Message"));
+import Message from "./chat-messages/Message";
 
-const ChatBody = ({ messages, userId, lastMessageRef, scrollHandler }) => {
-  // useEffect(() => {
-  //   document.addEventListener("scroll", scrollHandler, true);
-  //   return () => {
-  //     document.removeEventListener("scroll", scrollHandler);
-  //   };
-  // }, []);
+const ChatBody = ({
+  messages,
+  userId,
+  fetchMoreData,
+  isLoading,
+  lastMessageRef,
+}) => {
+  const firstMessageRef = useRef(null);
 
-  return (
-    <div className="message-container" onScroll={scrollHandler}>
-      {messages?.map((message) => (
-        <Suspense fallback={"loading"}>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isLoading) {
+          fetchMoreData();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-100px 0px 0px 0px",
+        threshold: 0,
+      }
+    );
+
+    if (firstMessageRef.current) {
+      observer.observe(firstMessageRef.current);
+    }
+
+    return () => {
+      if (firstMessageRef.current) {
+        observer.unobserve(firstMessageRef.current);
+      }
+    };
+  }, [messages, isLoading, fetchMoreData]);
+
+  if (messages) {
+    return (
+      <div className="messages-container">
+        {messages?.map((message, index) => (
           <Message
+            index={index}
+            messagesLength={messages.length}
             userId={userId}
             message={message}
             lastMessageRef={lastMessageRef}
+            firstMessageRef={firstMessageRef}
           />
-        </Suspense>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  }
 };
 
 export default ChatBody;

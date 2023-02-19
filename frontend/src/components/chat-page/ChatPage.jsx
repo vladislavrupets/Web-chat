@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 
 import ChatBody from "./chat-body/ChatBody";
@@ -15,9 +15,11 @@ const ChatPage = ({ socket }) => {
   const [messagesStorage, setMessagesStorage] = useState("");
   const [Message, setMessage] = useState({});
   const [lastMessages, setlastMessages] = useState();
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const lastMessageRef = useRef(null);
+  const messagesContRef = useRef(null);
 
   const handleClickChatroom = useCallback(
     (chatroomId, roomName) => {
@@ -46,7 +48,6 @@ const ChatPage = ({ socket }) => {
         console.log(err);
       });
   };
-
   useEffect(() => {
     if (socket) {
       socket.emit("joinRooms");
@@ -66,12 +67,17 @@ const ChatPage = ({ socket }) => {
   //get messages on enter chatroom
 
   const fetchDataOnEnterRoom = () => {
-    socket?.emit("enterChatroom", {
-      chatroomId: ChatroomId,
-    });
-    socket?.off("getChatroomMessages").on("getChatroomMessages", (messages) => {
-      setMessagesStorage({ [ChatroomId]: messages });
-    });
+    if (!messagesStorage[ChatroomId]) {
+      console.log(socket);
+      socket?.emit("enterChatroom", {
+        chatroomId: ChatroomId,
+      });
+      socket
+        ?.off("getChatroomMessages")
+        .on("getChatroomMessages", (messages) => {
+          setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
+        });
+    }
   };
 
   useEffect(() => {
@@ -79,30 +85,20 @@ const ChatPage = ({ socket }) => {
   }, [ChatroomId]);
 
   //messages lazy loading
-  const [isFetch, setisFetch] = useState(false);
-  const fetchMoreData = (messagesCount) => {
+
+  const fetchMoreData = () => {
+    setIsLoading(true);
     socket.emit("enterChatroom", {
       chatroomId: ChatroomId,
-      messagesCount,
+      messagesCount: messagesStorage[ChatroomId]?.length,
     });
     socket.off("getChatroomMessages").on("getChatroomMessages", (messages) => {
       let temp = {};
       Object.assign(temp, messagesStorage);
-      temp[ChatroomId].unshift(...messages);
+      temp[ChatroomId]?.push(...messages);
       setMessagesStorage({ ...temp });
     });
-  };
-
-  const scrollHandler = (e) => {
-    console.log(
-      (e.currentTarget.scrollTop * 2 * 100) / e.currentTarget.scrollHeight
-    );
-    if (
-      (e.currentTarget.scrollTop * 2 * 100) / e.currentTarget.scrollHeight <
-      30
-    ) {
-      fetchMoreData(messagesStorage[ChatroomId]?.length);
-    }
+    setIsLoading(false);
   };
 
   //recieve message
@@ -118,7 +114,7 @@ const ChatPage = ({ socket }) => {
         if (ChatroomId === message.chatroomId) {
           let temp = {};
           Object.assign(temp, messagesStorage);
-          temp[ChatroomId].push(message);
+          temp[ChatroomId].unshift(message);
           setMessagesStorage({ ...temp });
           setMessage(message);
         }
@@ -130,11 +126,8 @@ const ChatPage = ({ socket }) => {
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [ChatroomId, messagesStorage]);
-
-  // useEffect(() => {
-  //   lastMessageRef.current?.scrollIntoView();
-  // }, [handleClickChatroom]);
+    console.log(lastMessageRef);
+  }, [Message]);
 
   return (
     <div className="chat-container" id="111">
@@ -151,9 +144,11 @@ const ChatPage = ({ socket }) => {
           <ChatHeader roomName={RoomName} />
           <ChatBody
             messages={messagesStorage[ChatroomId]}
-            lastMessageRef={lastMessageRef}
             userId={userId}
-            scrollHandler={scrollHandler}
+            fetchMoreData={fetchMoreData}
+            isLoading={isLoading}
+            lastMessageRef={lastMessageRef}
+            messagesContRef={messagesContRef}
           />
           <ChatFooter socket={socket} chatroomId={ChatroomId} />
         </div>

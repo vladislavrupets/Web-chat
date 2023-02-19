@@ -34,7 +34,7 @@
 .content-recipient {
   display: table;
   max-width: 80%;
-  margin: 10px 0px 10px 0px;
+  margin: 10px auto 10px 0px;
   background-color: #273153;
   border-radius: 15px;
 }

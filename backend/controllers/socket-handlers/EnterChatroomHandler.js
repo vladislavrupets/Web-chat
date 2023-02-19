@@ -8,11 +8,8 @@ module.exports = function enterChatroom(socket) {
         .populate("user", "login")
         .sort({ _id: -1 })
         .skip(messagesCount)
-        .limit(30);
-      let mes = messages.reverse();
-      socket.emit("getChatroomMessages", mes, (res) => {
-        console.log(res);
-      });
+        .limit(50);
+      socket.emit("getChatroomMessages", messages);
     } catch (err) {
       console.log(err);
     }
