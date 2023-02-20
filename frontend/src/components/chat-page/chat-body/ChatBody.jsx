@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./chatBody.css";
 import Message from "./chat-messages/Message";
@@ -38,22 +37,24 @@ const ChatBody = ({
     };
   }, [messages, isLoading, fetchMoreData]);
 
-  if (messages) {
-    return (
-      <div className="messages-container">
-        {messages?.map((message, index) => (
-          <Message
-            index={index}
-            messagesLength={messages.length}
-            userId={userId}
-            message={message}
-            lastMessageRef={lastMessageRef}
-            firstMessageRef={firstMessageRef}
-          />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <>
+      {messages && (
+        <div className="messages-container">
+          {messages?.map((message, index) => (
+            <Message
+              index={index}
+              messagesLength={messages.length}
+              userId={userId}
+              message={message}
+              lastMessageRef={lastMessageRef}
+              firstMessageRef={firstMessageRef}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ChatBody;

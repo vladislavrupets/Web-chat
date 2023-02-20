@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 
+import "./chatPage.css";
 import ChatBody from "./chat-body/ChatBody";
 import ChatFooter from "./chat-footer/ChatFooter";
 import ChatHeader from "./chat-header/ChatHeader";
 import ChatSidebar from "./chat-sidebar/ChatSidebar";
-import "./chatPage.css";
 
 const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState("");
   const [RoomName, setRoomName] = useState("");
   const [chatrooms, setRooms] = useState([]);
+  const [isModalAddChatroomActive, setModalAddChatroomActive] = useState(false);
 
   const [messagesStorage, setMessagesStorage] = useState("");
   const [Message, setMessage] = useState({});
-  const [lastMessages, setlastMessages] = useState();
-  const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastMessages, setlastMessages] = useState(null);
+  const [userId, setUserId] = useState("");
 
   const lastMessageRef = useRef(null);
-  const messagesContRef = useRef(null);
 
   const handleClickChatroom = useCallback(
     (chatroomId, roomName) => {
@@ -133,13 +133,14 @@ const ChatPage = ({ socket }) => {
     <div className="chat-container" id="111">
       <ChatSidebar
         className="sidebar"
-        socket={socket}
         handleClickChatroom={handleClickChatroom}
         chatrooms={chatrooms}
         lastMessages={lastMessages}
         userId={userId}
+        setModalAddChatroomActive={setModalAddChatroomActive}
       />
-      {ChatroomId ? (
+
+      {ChatroomId && (
         <div className="inner-chat-container">
           <ChatHeader roomName={RoomName} />
           <ChatBody
@@ -148,12 +149,9 @@ const ChatPage = ({ socket }) => {
             fetchMoreData={fetchMoreData}
             isLoading={isLoading}
             lastMessageRef={lastMessageRef}
-            messagesContRef={messagesContRef}
           />
           <ChatFooter socket={socket} chatroomId={ChatroomId} />
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );

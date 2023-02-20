@@ -2,18 +2,18 @@ import React, { useState } from "react";
 
 import "./chatFooter.css";
 
-const ChatFooter = (props) => {
+const ChatFooter = ({ socket, chatroomId }) => {
   const [message, setMessage] = useState("");
 
   const handleSendMessage = (event) => {
     event.preventDefault();
-    if (message.trim() && props.socket) {
-      props.socket.emit("sendMessage", {
-        chatroomId: props.chatroomId,
+    if (message.trim() && socket) {
+      socket.emit("sendMessage", {
+        chatroomId: chatroomId,
         message,
       });
       console.log(message);
-      console.log(props.chatroomId);
+      console.log(chatroomId);
     }
 
     setMessage("");
@@ -30,7 +30,7 @@ const ChatFooter = (props) => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button type="submit" className="send-btn">
-          <i class="fa-solid fa-location-arrow fa-3x"></i>
+          <i className="fa-solid fa-location-arrow fa-3x"></i>
         </button>
       </form>
     </footer>
