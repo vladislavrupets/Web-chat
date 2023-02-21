@@ -9,10 +9,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chatroomsList: {
-    type: Array,
-    required: false,
-  },
+  chatroomsList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chatroom",
+      required: false,
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

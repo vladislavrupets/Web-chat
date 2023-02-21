@@ -3,10 +3,18 @@ import Modal from "../../../modal/Modal";
 
 import "./modalAddChatroom.css";
 
-const ModalAddChatroom = ({ isActive, setActive }) => {
+const ModalAddChatroom = ({ isActive, setActive, setRooms, socket }) => {
   const [chatroomName, setChatroomName] = useState("");
 
-  const handleCreateChatroom = () => {};
+  const handleCreateChatroom = () => {
+    socket.emit("createChatroom", chatroomName);
+    console.log(chatroomName);
+    socket.off("getNewChatroom").on("getNewChatroom", (newChatroom) => {
+      setRooms((prev) => {
+        return [...prev, newChatroom];
+      });
+    });
+  };
   return (
     <Modal isActive={isActive} setActive={setActive}>
       <h1>Add new chatroom: {chatroomName}</h1>

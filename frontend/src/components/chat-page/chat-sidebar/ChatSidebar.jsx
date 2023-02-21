@@ -7,8 +7,10 @@ import ModalAddChatroom from "./modal-add-chatroom/ModalAddChatroom";
 const ChatroomsSidebar = ({
   lastMessages,
   chatrooms,
+  setRooms,
   handleClickChatroom,
   userId,
+  socket,
 }) => {
   const [isModalAddChatroomActive, setModalAddChatroomActive] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +36,8 @@ const ChatroomsSidebar = ({
           <ModalAddChatroom
             isActive={isModalAddChatroomActive}
             setActive={setModalAddChatroomActive}
+            setRooms={setRooms}
+            socket={socket}
           />
           {chatrooms.map((chatroom) => (
             <div

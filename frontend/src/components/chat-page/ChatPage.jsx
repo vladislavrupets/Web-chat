@@ -11,7 +11,6 @@ const ChatPage = ({ socket }) => {
   const [ChatroomId, setChatroomId] = useState("");
   const [RoomName, setRoomName] = useState("");
   const [chatrooms, setRooms] = useState([]);
-  const [isModalAddChatroomActive, setModalAddChatroomActive] = useState(false);
 
   const [messagesStorage, setMessagesStorage] = useState("");
   const [Message, setMessage] = useState({});
@@ -21,15 +20,14 @@ const ChatPage = ({ socket }) => {
 
   const lastMessageRef = useRef(null);
 
-  const handleClickChatroom = useCallback(
-    (chatroomId, roomName) => {
-      if (chatroomId !== ChatroomId) {
-        setChatroomId(chatroomId);
-        setRoomName(roomName);
-      }
-    },
-    [ChatroomId]
-  );
+  const handleClickChatroom = (chatroomId, roomName) => {
+    console.log(chatrooms);
+    console.log(chatroomId);
+    if (chatroomId !== ChatroomId) {
+      setChatroomId(chatroomId);
+      setRoomName(roomName);
+    }
+  };
 
   //get rooms list and last messages
 
@@ -51,7 +49,7 @@ const ChatPage = ({ socket }) => {
   useEffect(() => {
     if (socket) {
       socket.emit("joinRooms");
-      socket.on("getLastMessages", (messages) => {
+      socket.off("getLastMessages").on("getLastMessages", (messages) => {
         let temp = {};
         messages.map((message) => {
           if (message) {
@@ -60,7 +58,11 @@ const ChatPage = ({ socket }) => {
         });
         setlastMessages({ ...temp });
       });
-      getRooms();
+      //getRooms();
+      socket.off("getAllChatrooms").on("getAllChatrooms", (chatroomsList) => {
+        console.log(chatroomsList);
+        setRooms(chatroomsList);
+      });
     }
   }, [socket]);
 
@@ -68,7 +70,6 @@ const ChatPage = ({ socket }) => {
 
   const fetchDataOnEnterRoom = () => {
     if (!messagesStorage[ChatroomId]) {
-      console.log(socket);
       socket?.emit("enterChatroom", {
         chatroomId: ChatroomId,
       });
@@ -135,11 +136,11 @@ const ChatPage = ({ socket }) => {
         className="sidebar"
         handleClickChatroom={handleClickChatroom}
         chatrooms={chatrooms}
+        setRooms={setRooms}
         lastMessages={lastMessages}
         userId={userId}
-        setModalAddChatroomActive={setModalAddChatroomActive}
+        socket={socket}
       />
-
       {ChatroomId && (
         <div className="inner-chat-container">
           <ChatHeader roomName={RoomName} />
