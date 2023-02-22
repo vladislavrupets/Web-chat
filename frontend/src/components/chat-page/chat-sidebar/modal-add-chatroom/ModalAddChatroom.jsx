@@ -14,6 +14,8 @@ const ModalAddChatroom = ({ isActive, setActive, setRooms, socket }) => {
         return [...prev, newChatroom];
       });
     });
+    setChatroomName("");
+    setActive(false);
   };
   return (
     <Modal isActive={isActive} setActive={setActive}>

@@ -80,11 +80,6 @@ class ChatroomHandler {
         if (await Chatroom.findOne({ roomName: chatroomName })) {
           throw "Chatroom with the same name already exists.";
         }
-
-        // const chatroom = new Chatroom({
-        //   chatroomName,
-        // });
-
         Chatroom.create(
           { roomName: chatroomName },
           async (err, newChatroom) => {
