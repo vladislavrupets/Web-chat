@@ -8,12 +8,12 @@ const ChatFooter = ({ socket, chatroomId }) => {
   const handleSendMessage = (event) => {
     event.preventDefault();
     if (message.trim() && socket) {
+      console.log(message);
+      console.log(chatroomId);
       socket.emit("sendMessage", {
         chatroomId: chatroomId,
         message,
       });
-      console.log(message);
-      console.log(chatroomId);
     }
 
     setMessage("");

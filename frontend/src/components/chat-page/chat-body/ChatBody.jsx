@@ -39,20 +39,18 @@ const ChatBody = ({
 
   return (
     <>
-      {messages && (
-        <div className="messages-container">
-          {messages?.map((message, index) => (
-            <Message
-              index={index}
-              messagesLength={messages.length}
-              userId={userId}
-              message={message}
-              lastMessageRef={lastMessageRef}
-              firstMessageRef={firstMessageRef}
-            />
-          ))}
-        </div>
-      )}
+      <div className="messages-container">
+        {messages?.map((message, index) => (
+          <Message
+            index={index}
+            messagesLength={messages.length}
+            userId={userId}
+            message={message}
+            lastMessageRef={lastMessageRef}
+            firstMessageRef={firstMessageRef}
+          />
+        ))}
+      </div>
     </>
   );
 };

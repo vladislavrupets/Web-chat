@@ -67,7 +67,9 @@ class ChatroomHandler {
           .sort({ _id: -1 })
           .skip(messagesCount)
           .limit(50);
-        socket.emit("getChatroomMessages", messages);
+        if (messages.length > 0) {
+          socket.emit("getChatroomMessages", messages);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -118,4 +120,4 @@ const getAllChatrooms = async (socket, chatroomsList) => {
   }
 };
 
-module.exports = ChatroomHandler;
+module.exports = new ChatroomHandler();

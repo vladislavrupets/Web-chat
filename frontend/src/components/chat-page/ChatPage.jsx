@@ -70,12 +70,16 @@ const ChatPage = ({ socket }) => {
 
   const fetchDataOnEnterRoom = () => {
     if (!messagesStorage[ChatroomId]) {
+      console.log(ChatroomId);
       socket?.emit("enterChatroom", {
         chatroomId: ChatroomId,
       });
       socket
         ?.off("getChatroomMessages")
         .on("getChatroomMessages", (messages) => {
+          if (!messages) {
+            console.log(messages);
+          }
           setMessagesStorage({ ...messagesStorage, [ChatroomId]: messages });
         });
     }
@@ -96,6 +100,7 @@ const ChatPage = ({ socket }) => {
     socket.off("getChatroomMessages").on("getChatroomMessages", (messages) => {
       let temp = {};
       Object.assign(temp, messagesStorage);
+
       temp[ChatroomId]?.push(...messages);
       setMessagesStorage({ ...temp });
     });
@@ -105,6 +110,7 @@ const ChatPage = ({ socket }) => {
   //recieve message
 
   useEffect(() => {
+    console.log(1);
     if (socket) {
       const token = localStorage.getItem("Token");
       const payload = JSON.parse(atob(token.split(".")[1]));
@@ -121,7 +127,7 @@ const ChatPage = ({ socket }) => {
         }
       });
     }
-  }, [socket, messagesStorage, lastMessages]);
+  }, [socket, lastMessages, messagesStorage]);
 
   //autoscroll (need to fix)
 
