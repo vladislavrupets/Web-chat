@@ -20,19 +20,22 @@ const ChatroomsSidebar = ({
     navigate("/login");
   };
 
-  //need to fix
-
+  //need to fix modal
   return (
     <>
       {lastMessages && (
         <aside className="chat-sidebar">
-          <div className="logout-btn" onClick={handleLeaveChat}>
-            Logout
+          <div className="buttons-container">
+            <span className="logout-btn" onClick={handleLeaveChat}>
+              Logout
+            </span>
+            <span
+              className="add-chatroom-btn"
+              onClick={() => setModalAddChatroomActive(true)}
+            >
+              Add chatroom
+            </span>
           </div>
-          <button
-            className="add-chatroom-btn"
-            onClick={() => setModalAddChatroomActive(true)}
-          ></button>
           <ModalAddChatroom
             isActive={isModalAddChatroomActive}
             setActive={setModalAddChatroomActive}

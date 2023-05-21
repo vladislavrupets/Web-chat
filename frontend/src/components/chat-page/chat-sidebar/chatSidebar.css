@@ -42,7 +42,19 @@
   margin-left: 5px;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .logout-btn {
-  margin: 15px 0 40px 15px;
+  margin: 15px 0 20px 15px;
   color: #9ca2af;
+  cursor: pointer;
+}
+
+.add-chatroom-btn {
+  margin: 15px 0 20px 15px;
+  color: #9ca2af;
+  cursor: pointer;
 }

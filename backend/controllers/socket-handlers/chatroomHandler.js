@@ -11,7 +11,6 @@ class ChatroomHandler {
           "chatroomsList",
           "_id roomName"
         );
-
         if (user.chatroomsList) {
           const chatrooms = user.chatroomsList.map((chatroom) => {
             return {

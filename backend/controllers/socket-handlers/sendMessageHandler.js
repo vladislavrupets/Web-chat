@@ -8,8 +8,6 @@ const { login } = require("../userController");
 module.exports = function sendMessage(io, socket) {
   socket?.on("sendMessage", async ({ chatroomId, message }) => {
     try {
-      console.log(chatroomId);
-      console.log(message);
       const user = await User.findOne({ _id: socket.userId });
       const sendDate = getMessageDate(new Date(Date.now()));
       io.in(chatroomId).emit(
@@ -24,9 +22,7 @@ module.exports = function sendMessage(io, socket) {
           sendDate,
           chatroomId,
         },
-        () => {
-          console.log(1312);
-        }
+        () => {}
       );
 
       await Message.create({
