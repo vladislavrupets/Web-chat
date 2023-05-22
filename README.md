@@ -27,7 +27,7 @@
 ![Main page](frontend/src/images/readme-main_page.png)
 
 ### Another chatroom
-![Another chatroom](frontend/src/images/readme-main_page.png)
+![Another chatroom](frontend/src/images/readme-another_room.png)
 
 ### Add chatroom modal
 ![Add chatroom modal](frontend/src/images/readme-add_chatroom.png)
