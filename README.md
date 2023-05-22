@@ -7,7 +7,7 @@
 - Saving messages to MongoDb
 - Registraton and login
 - Jwt authentication and password encryption
-- 
+- Lazy loading messages on scroll up
 
 ## Technologies
 
