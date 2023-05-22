@@ -1,6 +1,6 @@
 # Web-chat
 
-### Features
+## Features
 
 - Real-time chating between multiple users
 - Different chatrooms
@@ -9,27 +9,27 @@
 - Jwt authentication and password encryption
 - 
 
-### Technologies
+## Technologies
 
 - Node.js: express, socket.io, mongoose
 - React.js
 - MongoDB
 
-### Interface demo
+## Interface demo
 
-## Registraton
+### Registraton
 ![Registraton](frontend/src/images/readme-register.png)
 
-## Login
+### Login
 ![Login](frontend/src/images/readme-login.png)
 
-## Main page
+### Main page
 ![Main page](frontend/src/images/readme-main_page.png)
 
-## Another chatroom
+### Another chatroom
 ![Another chatroom](frontend/src/images/readme-main_page.png)
 
-## Add chatroom modal
+### Add chatroom modal
 ![Add chatroom modal](frontend/src/images/readme-add_chatroom.png)
 
 
